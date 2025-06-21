@@ -10,6 +10,7 @@ import { setPosts } from "../redux/postSlice";
 import { setAuthUser } from "../redux/authSlice";
 import UseFollow from "../hooks/UseFollow";
 const Post = ({ post }) => {
+  const backendurl=process.env.REACT_APP_API_URL;
   const [commenttoggle, setCommenttoggle] = useState(false);
   const [commenttext, setcommenttext] = useState("");
   const { user } = useSelector((store) => store.auth);
@@ -38,7 +39,7 @@ const Post = ({ post }) => {
   const deletehandle = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:7000/delete-post/${post._id}`,
+        `${backendurl}/delete-post/${post._id}`,
         {
           withCredentials: true,
         }
@@ -59,7 +60,7 @@ const Post = ({ post }) => {
   const likehandle = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:7000/like-dislike/${post._id}`,
+        `${backendurl}/like-dislike/${post._id}`,
         {},
         {
           withCredentials: true,
@@ -79,7 +80,7 @@ const Post = ({ post }) => {
   const commenthandle = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:7000/comment/${post._id}`,
+        `${backendurl}/comment/${post._id}`,
         { text: commenttext },
         {
           headers: {
@@ -106,7 +107,7 @@ const Post = ({ post }) => {
   const bookmarkhandle = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:7000/bookmark/${post._id}`,
+        `${backendurl}/bookmark/${post._id}`,
         {},
         {
           withCredentials: true,

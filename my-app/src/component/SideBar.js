@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { setAuthUser, setSelectedUser } from "../redux/authSlice";
 
 const SideBar = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
@@ -14,7 +16,7 @@ const SideBar = () => {
     console.log("fkn");
     
     try {
-      const res = await axios.get("http://localhost:7000/logout", {
+      const res = await axios.get(`${backendurl}/logout`, {
         withCredentials: true,
       });
       if (res.data.success) {

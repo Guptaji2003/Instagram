@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const backendurl=process.env.REACT_APP_API_URL;${backendurl}
+
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
@@ -30,7 +32,7 @@ const AuthProvider = ({ children }) => {
   // ✅ Fetch all users
   const getAllUsers = async () => {
     try {
-      const response = await fetch("http://localhost:7000/alluser");
+      const response = await fetch(`${backendurl}/alluser`);
       const data = await response.json();
 
       //   console.log("Users fetched:", data); // ✅ Debugging API response
@@ -47,7 +49,7 @@ const AuthProvider = ({ children }) => {
 
   const getAllPosts = async () => {
     try {
-      const response = await fetch("http://localhost:7000/allpost");
+      const response = await fetch(`${backendurl}/allpost`);
       const data = await response.json();
 
       //   console.log("Posts fetched:", data); // ✅ Debugging API response

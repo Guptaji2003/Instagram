@@ -5,12 +5,13 @@ import { toast } from 'react-toastify';
 import { setAuthUser } from '../redux/authSlice';
 
 const UseFollow = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
     
     const dispatch = useDispatch();
     const followhandle = async (userId) => {
       try {
         const res = await axios.put(
-          `http://localhost:7000/follow/${userId}`,
+          `${backendurl}/follow/${userId}`,
           {},
           {
             withCredentials: true,

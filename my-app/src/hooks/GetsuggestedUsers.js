@@ -4,11 +4,13 @@ import { setSuggestedUsers } from '../redux/authSlice'
 import { toast } from 'react-toastify'
 import { useDispatch } from "react-redux";
 const GetsuggestedUsers = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
+
     const dispatch = useDispatch();
     useEffect(() => {
         const suggestedUsers = async () => {
             try {
-                const res = await axios.get("http://localhost:7000/suggested-users", {
+                const res = await axios.get(`${backendurl}/suggested-users`, {
                     withCredentials: true,
                 })
                 if (res.data.success) {

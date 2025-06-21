@@ -5,6 +5,8 @@ import { setPosts } from "../redux/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import GetAllPost from "../hooks/GetAllPost";
 export default function CreatePost() {
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const dispatch = useDispatch();
   const [image, setImage] = useState("");
   const [caption, setCaption] = useState("");
@@ -66,7 +68,7 @@ export default function CreatePost() {
       console.log(formData);
 
       const res = await axios.post(
-        "http://localhost:7000/createpost",
+        `${backendurl}/createpost`,
         formData,
         {
           headers: {

@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const Register = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const notifyA = (msg) => toast.error(msg);
   const notifyB = (msg) => toast.success(msg);
   const [loading, setloading] = useState(false);
@@ -25,7 +27,7 @@ const Register = () => {
 
     try {
       setloading(true);
-      const res = await axios.post("http://localhost:7000/register", input, {
+      const res = await axios.post(`${backendurl}/register`, input, {
         headers: {
           "Content-Type": "application/json",
         },

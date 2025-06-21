@@ -10,6 +10,8 @@ import IMG from "../assests/raamin-ka-74jERQtN1V4-unsplash.jpg";
 import GetRTM from "../hooks/GetRTM";
 
 const Message = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const [msg, setMsg] = useState("");
   const dispatch = useDispatch();
   const { suggestedUsers, selectedUser, user } = useSelector(
@@ -27,7 +29,7 @@ const Message = () => {
     if (!selectedUser) return;
     try {
       const res = await axios.post(
-        `http://localhost:7000/send-message/${selectedUser?._id}`,
+        `${backendurl}/send-message/${selectedUser?._id}`,
         { message: msg },
         {
           headers: {

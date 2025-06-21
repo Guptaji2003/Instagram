@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from '../redux/postSlice';
 const GetAllPost = () => {
     const dispatch = useDispatch();
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const { suggestedUsers, user } = useSelector((store) => store.auth);
 
     useEffect(() => {
         const allpost = async () => {
             try {
-                const res = await axios.get("http://localhost:7000/allpost", {
+                const res = await axios.get(`${backendurl}/allpost`, {
                     withCredentials: true,
                 })
                 if (res.data.success) {

@@ -5,6 +5,7 @@ import axios from "axios";
 
 const GetAllmessages = (id) => {
   const dispatch = useDispatch();
+  const backendurl=process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (!id) return; // Prevent API call if no ID is passed
@@ -12,7 +13,7 @@ const GetAllmessages = (id) => {
     const getMessages = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:7000/get-conversations/${id}`,
+          `${backendurl}/get-conversations/${id}`,
           { withCredentials: true }
         );
 

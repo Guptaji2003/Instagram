@@ -7,6 +7,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "../redux/authSlice";
 const Login = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setloading] = useState(false);
@@ -24,7 +26,7 @@ const Login = () => {
 
     try {
       setloading(true);
-      const res = await axios.post("http://localhost:7000/login", input, {
+      const res = await axios.post(`${backendurl}/login`, input, {
         headers: {
           "Content-Type": "application/json",
         },

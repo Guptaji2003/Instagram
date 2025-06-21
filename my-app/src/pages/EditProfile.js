@@ -9,6 +9,8 @@ import { setAuthUser } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
+  const backendurl=process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
   const { user } = useSelector((store) => store.auth);
   const [name, setName] = useState(user?.name);
@@ -20,7 +22,7 @@ const EditProfile = () => {
   const editprofile = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:7000/update-profile`,
+        `${backendurl}/update-profile`,
         { name, username, bio, gender,image },
         {
           withCredentials: true,

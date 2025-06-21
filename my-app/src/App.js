@@ -23,10 +23,11 @@ function App() {
   const { user } = useSelector((store) => store.auth);
   const { socket } = useSelector((store) => store.socketio);
   const dispatch = useDispatch();
+  const backendurl=process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (user) {
-      const socketio = io("http://localhost:7000", {
+      const socketio = io(`${backendurl}`, {
         query: {
           userId: user?._id,
         },

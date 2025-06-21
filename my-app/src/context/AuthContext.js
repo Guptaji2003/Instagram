@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const backendurl=process.env.REACT_APP_API_URL;${backendurl}
+  const backendurl=process.env.REACT_APP_API_URL;
 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);

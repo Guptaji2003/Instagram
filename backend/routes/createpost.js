@@ -33,7 +33,7 @@ router.get("/allpost", isAuthenticated, async (req, res) => {
 router.post(
   "/createpost",
   isAuthenticated,
-  upload.single("photo"),
+
   async (req, res) => {
     const { caption, location, photo } = req.body;
     // const photo = req.file ? req.file.path.replace(/\\/g, "/") : null;

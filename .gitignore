@@ -1,0 +1,25 @@
+# Ignore root-level node_modules (not needed)
+node_modules/
+
+# Ignore node_modules inside backend and myapp
+backend/node_modules/
+my-app/node_modules/
+
+# Ignore .env files in all places
+*.env
+
+# Ignore build output (React)
+my-app/build/
+
+# Ignore log files
+*.log
+
+# MacOS / system files
+.DS_Store
+
+# Vercel/Render configs (optional if auto-generated)
+.vercel/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

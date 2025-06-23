@@ -9,7 +9,7 @@ if(!authorization){
     return res.json({error:"you have to logged in 1 "})
 }
 const token=authorization.replace("Bearer ","")
-jwt.verify(token,jwt_secret,(err,payload)=>{
+jwt.verify(token,JWT_SECRET,(err,payload)=>{
     if(err){
         return res.json({error:"you have to logged in 2"})
     }

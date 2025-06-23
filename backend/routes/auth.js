@@ -57,8 +57,9 @@ router.post("/login", async (req, res) => {
   res
     .cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
-      maxAge: 1 * 24 * 60 * 60 * 1000,
+      sameSite: "None", // ✅ for cross-site cookies
+      secure: true, // ✅ must be true on HTTPS (e.g., Render)
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     })
     .json({
       message: `Welcome back `,
@@ -74,7 +75,9 @@ router.get("/alluser", async (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  res.clearCookie("token").json({success:true, message: "Logged Out Successfully" });
+  res
+    .clearCookie("token")
+    .json({ success: true, message: "Logged Out Successfully" });
 });
 
 router.get("/profile/:id", isAuthenticated, async (req, res) => {
@@ -86,10 +89,11 @@ router.get("/profile/:id", isAuthenticated, async (req, res) => {
         path: "posts",
         populate: { path: "author", select: "username" },
         createdAt: -1,
-      }).populate({ path: "followers",select:"username name profileimage"})
-      .populate({ path: "followings",select:"username name profileimage"})
-      .populate({ path: "bookmark",select:"photo"});
-      
+      })
+      .populate({ path: "followers", select: "username name profileimage" })
+      .populate({ path: "followings", select: "username name profileimage" })
+      .populate({ path: "bookmark", select: "photo" });
+
     return res.status(200).json({
       user,
       success: true,
@@ -102,7 +106,7 @@ router.get("/profile/:id", isAuthenticated, async (req, res) => {
 router.put("/update-profile", isAuthenticated, async (req, res) => {
   try {
     const userId = req.id;
-    const {name, bio, gender, username,image } = req.body;
+    const { name, bio, gender, username, image } = req.body;
     // const profilePicture = req.file;
     // let cloudResponse;
 
@@ -138,19 +142,17 @@ router.put("/update-profile", isAuthenticated, async (req, res) => {
 });
 
 router.get("/suggested-users", isAuthenticated, async (req, res) => {
-  try{
-  const userId = req.id;
+  try {
+    const userId = req.id;
 
-  const suggestedUsers = await usermodel.find({ _id: { $ne: userId } });
-  if (!suggestedUsers || suggestedUsers.length == 0) {
-    return res.status(404).json({ message: "Users not found." });
+    const suggestedUsers = await usermodel.find({ _id: { $ne: userId } });
+    if (!suggestedUsers || suggestedUsers.length == 0) {
+      return res.status(404).json({ message: "Users not found." });
+    }
+    res.json({ success: true, users: suggestedUsers });
+  } catch (e) {
+    console.log(e);
   }
-  res.json({ success: true, users: suggestedUsers });
-}
-catch(e){
-  console.log(e);
-  
-}
 });
 
 router.put("/follow/:id", isAuthenticated, async (req, res) => {
@@ -180,22 +182,22 @@ router.put("/follow/:id", isAuthenticated, async (req, res) => {
         usermodel.updateOne({ _id: pulkit }, { $pull: { followings: ritik } }),
         usermodel.updateOne({ _id: ritik }, { $pull: { followers: pulkit } }),
       ]);
-    const user = await usermodel.findById(pulkit);
-      
+      const user = await usermodel.findById(pulkit);
+
       return res
         .status(200)
-        .json({ message: "Unfollowed successfully",user, success: true });
+        .json({ message: "Unfollowed successfully", user, success: true });
     } else {
       // follow logic ayega
       await Promise.all([
         usermodel.updateOne({ _id: pulkit }, { $push: { followings: ritik } }),
         usermodel.updateOne({ _id: ritik }, { $push: { followers: pulkit } }),
       ]);
-    const user = await usermodel.findById(pulkit);
-      
+      const user = await usermodel.findById(pulkit);
+
       return res
         .status(200)
-        .json({ message: "followed successfully",user, success: true });
+        .json({ message: "followed successfully", user, success: true });
     }
   } catch (error) {
     console.log(error);

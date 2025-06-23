@@ -32,6 +32,7 @@ function App() {
           userId: user?._id,
         },
         transports: ["websocket"],
+         withCredentials: true,
       });
       dispatch(setSocket(socketio));
 

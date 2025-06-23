@@ -3,26 +3,26 @@ const express = require("express");
 const http = require("http");
 
 const app = express();
-
 const server = http.createServer(app);
 
+// ✅ use FRONTEND_URL
 const io = new Server(server, {
   cors: {
-    origin: process.env.URL,
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
-const userSocketMap = {}; // this map stores socket id corresponding the user id; userId -> socketId
+const userSocketMap = {}; // this map stores socket id corresponding the user id
 
 const getReceiverSocketId = (receiverId) => userSocketMap[receiverId];
-// module.exports= {getReceiverSocketId} ;/
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId) {
     userSocketMap[userId] = socket.id;
-    console.log(userId, socket.id);
+    console.log(`User Connected: ${userId} -> ${socket.id}`);
   }
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
